@@ -65,6 +65,7 @@ window.GW = window.GW || {};
 						border-radius: 100%;
 						padding: 20px;
 						background-color: var(--btn-color);
+						aspect-ratio: 1 / 1;
 
 						.result {
 							font-weight: bold;

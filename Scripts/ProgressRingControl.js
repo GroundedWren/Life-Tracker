@@ -150,7 +150,8 @@ window.GW = window.GW || {};
 
 		get Numerator() {
 			const floatNumerator = this.FloatNumerator;
-			return Math.max(floatNumerator <= this.Denominator ? floatNumerator : this.Denominator, 0);
+			return Math.max(floatNumerator, 0);
+			//return Math.max(floatNumerator <= this.Denominator ? floatNumerator : this.Denominator, 0);
 		}
 		get FloatNumerator() {
 			const numerator = parseFloat(this.getAttribute("numerator"));

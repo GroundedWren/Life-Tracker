@@ -9,7 +9,6 @@ window.GW = window.GW || {};
 		event.preventDefault();
 		const formData = new FormData(event.target);
 		ns.Data.Steps = [{Top: parseInt(formData.get("top")), Bottom: parseInt(formData.get("bottom"))}];
-		localStorage.setItem("data", JSON.stringify(ns.Data));
 
 		document.getElementById("diaNew").close();
 		renderFromData();
@@ -21,12 +20,25 @@ window.GW = window.GW || {};
 		newForm.querySelector(`[name="bottom"]`).value = lifeMax;
 	};
 
+	ns.RedoStack = [];
 	ns.undo = function undo() {
-
+		ns.RedoStack.push(ns.Data.Steps.pop());
+		renderFromData();
 	}
 
 	ns.redo = function redo() {
+		ns.Data.Steps.push(ns.RedoStack.pop());
+		renderFromData();
+	}
 
+	ns.addStep = function addStep(valueObj) {
+		const latestStep = ns.Data.Steps[ns.Data.Steps.length - 1];
+		valueObj.Top = valueObj.Top || latestStep.Top;
+		valueObj.Bottom = valueObj.Bottom || latestStep.Bottom;
+
+		ns.Data.Steps.push(valueObj);
+		ns.RedoStack = [];
+		renderFromData();
 	}
 
 	ns.onDCL = () => {
@@ -52,6 +64,22 @@ window.GW = window.GW || {};
 		const plBottom = document.getElementById("plBottom");
 		plBottom.setMax(startingTop);
 		plBottom.setLatest(latestBottom);
+
+		if(ns.Data.Steps.length > 1) {
+			document.getElementById("btnUndo").removeAttribute("disabled");
+		}
+		else {
+			document.getElementById("btnUndo").setAttribute("disabled", "");
+		}
+
+		if(ns.RedoStack.length >= 1) {
+			document.getElementById("btnRedo").removeAttribute("disabled");
+		}
+		else {
+			document.getElementById("btnRedo").setAttribute("disabled", "");
+		}
+
+		localStorage.setItem("data", JSON.stringify(ns.Data));
 	}
 	window.addEventListener("DOMContentLoaded", ns.onDCL);
 }) (window.GW.LifeTracker = window.GW.LifeTracker || {});

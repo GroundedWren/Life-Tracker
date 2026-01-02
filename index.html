@@ -151,16 +151,17 @@
 		}
 
 		button:not(.default-style) {
-			background-color: lightcyan !important;
+			--btn-color: lightcyan;
+			background-color: color-mix(in oklab, var(--btn-color), transparent var(--btn-transparency, 0%)) !important;
 			border: none !important;
 
 			&:not([disabled]) {
 				&:hover {
-					background-color: lightsteelblue !important;
+					--btn-color: lightsteelblue;
 				}
 
 				&:active {
-					background-color: lightskyblue !important;
+					--btn-color: lightskyblue;
 				}
 			}
 		}
@@ -202,13 +203,13 @@
 			<gw-icon iconKey="circle-info" name="Info"></gw-icon>
 		</button>
 		<div id="centerButtons">
-			<button onclick="GW.LifeTracker.undo()" disabled>
+			<button id="btnUndo" onclick="GW.LifeTracker.undo()" disabled>
 				<gw-icon iconKey="backward-step" name="Undo"></gw-icon>
 			</button>
 			<button onclick="document.getElementById('diaNew').showModal()">
 				<gw-icon iconKey="star-of-life" name="New"></gw-icon>
 			</button>
-			<button onclick="GW.LifeTracker.redo()" disabled>
+			<button id="btnRedo" onclick="GW.LifeTracker.redo()" disabled>
 				<gw-icon iconKey="forward-step" name="Redo"></gw-icon>
 			</button>
 		</div>
@@ -217,10 +218,10 @@
 		</button>
 	</header>
 	<section id="secPlayerTop" aria-labelledby="spnTopPlayerLbl">
-		<gw-player-life id="plTop"></gw-player-life>
+		<gw-player-life id="plTop" key="Top"></gw-player-life>
 	</section>
 	<section id="secPlayerBottom" aria-labelledby="spnBottomPlayerLbl">
-		<gw-player-life id="plBottom"></gw-player-life>
+		<gw-player-life id="plBottom" key="Bottom"></gw-player-life>
 	</section>
 	<dialog id="diaNew" aria-labelledby="hNew">
 		<form aria-labelledby="hNew" onsubmit="GW.LifeTracker.onNewSubmit(event);">
@@ -279,6 +280,7 @@
 	<div class="hidden">
 		<span id="spnTopPlayerLbl">Top Player</span>
 		<span id="spnBottomPlayerLbl">Bottom Player</span>
+		<span id="spnAcceptLbl">Accept</span>
 	</div>
 </body>
 </html>

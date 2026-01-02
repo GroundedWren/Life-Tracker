@@ -40,8 +40,36 @@ window.GW = window.GW || {};
 
 					z-index: 2;
 
+					border-radius: 100%;
+					justify-self: center;
+					height: 100%;
+					aspect-ratio: 1 / 1;
+
+					display: grid;
+					justify-content: center;
+					align-content: center;
+
+					font-size: 2em;
+
+					--btn-transparency: 50%;
+
 					&:empty {
 						display: none;
+					}
+
+					.content {
+						display: grid;
+						grid-template-rows: auto auto;
+						align-items: center;
+						align-content: center;
+						border-radius: 100%;
+						padding: 20px;
+						background-color: var(--btn-color);
+
+						.result {
+							font-weight: bold;
+							font-size: 1.5em;
+						}
 					}
 				}
 
@@ -85,6 +113,8 @@ window.GW = window.GW || {};
 				width: min(${contentBoxSize.inlineSize}px, ${contentBoxSize.blockSize}px);
 			}`);
 		});
+
+		#StagedModify = 0;
 
 		/** Creates an instance */
 		constructor() {
@@ -204,10 +234,40 @@ window.GW = window.GW || {};
 					<gw-icon iconKey="minus" name="Subtract"></gw-icon>
 					5
 				</button>
-				<button id="${this.getId("btnAccept")}" class="accept"></button>
+				<button id="${this.getId("btnAccept")}"
+					aria-labelledby="spnAcceptLbl ${this.getId("btnAccept")}"
+					class="accept"
+				></button>
 			`;
 
+			this.getRef("btnPlusOne").addEventListener("click", () => {this.#stageModify(1)});
+			this.getRef("btnMinusOne").addEventListener("click", () => {this.#stageModify(-1)});
+			this.getRef("btnPlusFive").addEventListener("click", () => {this.#stageModify(5)});
+			this.getRef("btnMinusFive").addEventListener("click", () => {this.#stageModify(-5)});
+			this.getRef("btnAccept").addEventListener("click", () => {this.#doModify()});
+
 			this.IsInitialized = true;
+		}
+
+		#stageModify(value) {
+			this.#StagedModify += value;
+
+			const curVal = parseInt(this.getRef("ring").getAttribute("numerator"));
+
+			this.getRef("btnAccept").innerHTML = this.#StagedModify
+				? 	`<span class="content">
+						<span class="equation">${curVal} ${this.#StagedModify > 0 ? "+" : "-"} ${Math.abs(this.#StagedModify)}</span>
+						<span class="result">= ${curVal + this.#StagedModify}</span>
+					</span>`
+				: null;
+		}
+
+		#doModify() {
+			const newValue = parseInt(this.getRef("ring").getAttribute("numerator")) + this.#StagedModify;
+			this.getRef("btnAccept").innerHTML = "";
+			this.#StagedModify = 0;
+
+			GW.LifeTracker.addStep({[this.getAttribute("key")]: newValue});
 		}
 
 		setMax(value) {

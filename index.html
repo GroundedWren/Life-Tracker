@@ -66,6 +66,8 @@
 	<script src="./Scripts/SVGIconControl.js"></script>
 	<script src="./Scripts/SwitchControl.js"></script>
 	<script src="./Scripts/ProgressRingControl.js"></script>
+	<link href="./Styles/InfoDialog.css" rel="stylesheet" type="text/css">
+	<link href="./Styles/InputGrid.css" rel="stylesheet" type="text/css">
 	
 	<script src="./Scripts/PlayerLifeControl.js"></script>
 	<script src="./Scripts/LifeTracker.js"></script>
@@ -162,11 +164,19 @@
 				}
 			}
 		}
+
+		.info {
+			figure {
+				display: grid;
+				grid-template-rows: auto auto;
+				justify-items: center;
+			}
+		}
 	</style>
 </head>
 <body>
 	<header>
-		<button onclick="">
+		<button onclick="document.getElementById('diaInfo').showModal()">
 			<gw-icon iconKey="circle-info" name="Info"></gw-icon>
 		</button>
 		<div id="centerButtons">
@@ -190,20 +200,34 @@
 	<section id="secPlayerBottom" aria-labelledby="spnBottomPlayerLbl">
 		<gw-player-life id="plBottom"></gw-player-life>
 	</section>
-	<dialog id="diaInfo" aria-labelledby="icoInfo">
+	<dialog id="diaInfo" class="info" aria-labelledby="icoInfo">
 		<article>
-			<gw-icon id="icoInfo" iconKey="circle-info" name="info" tabindex="-1" role="heading" aria-level="1" autofocus></gw-icon>
+			<gw-icon
+				id="icoInfo"
+				class="info-icon"
+				iconKey="circle-info"
+				name="info"
+				tabindex="-1"
+				role="heading"
+				aria-level="1"
+				autofocus
+			></gw-icon>
 			<article>
+				<p>
+					This life tracker was built for the <a href="https://fabtcg.com/">Flesh and Blood Trading Card Game</a>.
+					 It is intended for use on a mobile device.
+				</p>
 				<figure>
 					<a href="https://www.groundedwren.com/" target="_blank">
 						<img src="./Img/gw-button.png" alt="Grounded Wren 88x31 Button; white text on a swirling purple, red, and black background">
 					</a>
 					<figcaption>Created by Vera in 2026</figcaption>
 				</figure>
+				<p><a class="full" href="https://groundedwren.com/Pages/Projects/index.html">GroundedWren Projects Page</a></p>
 			</article>
 			<footer>
 				<a class="full" href="mailto:vera@groundedwren.com?subject=Life-Tracker">Give feedback</a>
-				<button onclick="document.getElementById('diaInfo').close();">Close</button>
+				<button class="default-style" onclick="document.getElementById('diaInfo').close();">Close</button>
 			</footer>
 		</article>
 	</dialog>

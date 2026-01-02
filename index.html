@@ -74,6 +74,7 @@
 		html, body {
 			max-width: initial;
 			margin-inline: 0;
+			height: 100vh;
 		}
 
 		body {
@@ -90,22 +91,26 @@
 				z-index: 2;
 			}
 
+			section {
+				display: grid;
+				justify-items: center;
+				padding-block-start: calc(var(--header-width) / 2);
+			}
+
 			#secPlayerTop {
 				grid-row: 1 / 3;
 				grid-column: 1;
-				padding-block-start: calc(var(--header-width) / 2);
 
 				transform: rotate(180deg);
 
-				background-color: aqua;
+				background-color: powderblue;
 			}
 
 			#secPlayerBottom {
 				grid-row: 3 / 5;
 				grid-column: 1;
-				padding-block-start: calc(var(--header-width) / 2);
 
-				background-color: green;
+				background-color: thistle;
 			}
 		}
 
@@ -142,6 +147,21 @@
 				grid-column: 2 / 3;
 			}
 		}
+
+		button:not(.default-style) {
+			background-color: lightcyan !important;
+			border: none !important;
+
+			&:not([disabled]) {
+				&:hover {
+					background-color: lightsteelblue !important;
+				}
+
+				&:active {
+					background-color: lightskyblue !important;
+				}
+			}
+		}
 	</style>
 </head>
 <body>
@@ -164,8 +184,12 @@
 			<gw-icon iconKey="scroll" name="History"></gw-icon>
 		</button>
 	</header>
-	<section id="secPlayerTop" aria-labelledby="spnTopPlayerLbl"></section>
-	<section id="secPlayerBottom" aria-labelledby="spnBottomPlayerLbl"></section>
+	<section id="secPlayerTop" aria-labelledby="spnTopPlayerLbl">
+		<gw-player-life id="plTop"></gw-player-life>
+	</section>
+	<section id="secPlayerBottom" aria-labelledby="spnBottomPlayerLbl">
+		<gw-player-life id="plBottom"></gw-player-life>
+	</section>
 	<dialog id="diaInfo" aria-labelledby="icoInfo">
 		<article>
 			<gw-icon id="icoInfo" iconKey="circle-info" name="info" tabindex="-1" role="heading" aria-level="1" autofocus></gw-icon>

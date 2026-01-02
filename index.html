@@ -15,7 +15,7 @@
 		window.GW = window.GW || {};
 		window.GW.Controls = window.GW.Controls || {};
 		(function Veil(ns) {
-			ns.DeferKeys = {"DOMContentLoaded": true, "GW.Controls.AccountEl": true};
+			ns.DeferKeys = {"DOMContentLoaded": true};
 			
 			/**
 			 * Defers the lowering of the veil until a key is cleared
@@ -71,8 +71,13 @@
 	<script src="./Scripts/LifeTracker.js"></script>
 
 	<style>
+		html, body {
+			max-width: initial;
+			margin-inline: 0;
+		}
+
 		body {
-			--header-width: 40px;
+			--header-width: 44px;
 
 			position: relative;
 			display: grid;
@@ -103,14 +108,64 @@
 				background-color: green;
 			}
 		}
+
+		header {
+			display: grid;
+			grid-template-columns: 1fr minmax(auto, 1.75fr) 1fr;
+			grid-template-rows: 44px;
+			margin-inline: 20px;
+
+			button {
+				min-width: 44px;
+				display: grid;
+				border-radius: 100%;
+
+				.gw-icon {
+					width: 30px;
+					height: 30px;
+				}
+
+				&:first-of-type {
+					justify-self: start;
+				}
+				&:last-of-type {
+					justify-self: end;
+				}
+			}
+
+			#centerButtons {
+				display: flex;
+				flex-direction: row;
+				gap: 5px;
+				justify-content: space-between;
+
+				grid-column: 2 / 3;
+			}
+		}
 	</style>
 </head>
 <body>
 	<header>
-
+		<button onclick="">
+			<gw-icon iconKey="circle-info" name="Info"></gw-icon>
+		</button>
+		<div id="centerButtons">
+			<button onclick="" disabled>
+				<gw-icon iconKey="backward-step" name="Undo"></gw-icon>
+			</button>
+			<button onclick="">
+				<gw-icon iconKey="star-of-life" name="New"></gw-icon>
+			</button>
+			<button onclick="" disabled>
+				<gw-icon iconKey="forward-step" name="Redo"></gw-icon>
+			</button>
+		</div>
+		<button onclick="">
+			<gw-icon iconKey="scroll" name="History"></gw-icon>
+		</button>
 	</header>
-	<section id="secPlayerTop" aria-label="Top Player"></section>
-	<section id="secPlayerBottom" aria-label="Bottom Player"></section>
+	<section id="secPlayerTop" aria-labelledby="spnTopPlayerLbl"></section>
+	<section id="secPlayerBottom" aria-labelledby="spnBottomPlayerLbl"></section>
 	<dialog id="diaInfo" aria-labelledby="icoInfo">
 		<article>
 			<gw-icon id="icoInfo" iconKey="circle-info" name="info" tabindex="-1" role="heading" aria-level="1" autofocus></gw-icon>
@@ -129,7 +184,8 @@
 		</article>
 	</dialog>
 	<div class="hidden">
-		<span id="spnLbl"></span>
+		<span id="spnTopPlayerLbl">Top Player</span>
+		<span id="spnBottomPlayerLbl">Bottom Player</span>
 	</div>
 </body>
 </html>

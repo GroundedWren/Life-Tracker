@@ -165,6 +165,28 @@
 			}
 		}
 
+		#diaNew {
+			h1 {
+				background-color: var(--accent-color);
+				text-align: center;
+			}
+
+			.input-grid {
+				margin-block: 10px;
+
+				input {
+					font-size: 1.5em;
+					line-height: 44px;
+				}
+			}
+
+			.quick-buttons, footer {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				grid-template-rows: 44px;
+			}
+		}
+
 		.info {
 			figure {
 				display: grid;
@@ -180,13 +202,13 @@
 			<gw-icon iconKey="circle-info" name="Info"></gw-icon>
 		</button>
 		<div id="centerButtons">
-			<button onclick="" disabled>
+			<button onclick="GW.LifeTracker.undo()" disabled>
 				<gw-icon iconKey="backward-step" name="Undo"></gw-icon>
 			</button>
-			<button onclick="">
+			<button onclick="document.getElementById('diaNew').showModal()">
 				<gw-icon iconKey="star-of-life" name="New"></gw-icon>
 			</button>
-			<button onclick="" disabled>
+			<button onclick="GW.LifeTracker.redo()" disabled>
 				<gw-icon iconKey="forward-step" name="Redo"></gw-icon>
 			</button>
 		</div>
@@ -200,6 +222,29 @@
 	<section id="secPlayerBottom" aria-labelledby="spnBottomPlayerLbl">
 		<gw-player-life id="plBottom"></gw-player-life>
 	</section>
+	<dialog id="diaNew" aria-labelledby="hNew">
+		<form aria-labelledby="hNew" onsubmit="GW.LifeTracker.onNewSubmit(event);">
+			<h1 id="hNew">New Game</h1>
+			<div class="quick-buttons">
+				<button type="button" onclick="GW.LifeTracker.onNewQB(40)">40/40</button>
+				<button type="button" onclick="GW.LifeTracker.onNewQB(20)">20/20</button>
+			</div>
+			<div class="input-grid">
+				<label>
+					<span>Top Player Health:</span>
+					<input type="number" name="top" required autofocus min="0" max="999" value="40">
+				</label>
+				<label>
+					<span>Bottom Player Health:</span>
+					<input type="number" name="bottom" required min="0" max="999" value="40">
+				</label>
+			</div>
+			<footer>
+				<button type="submit">Start</button>
+				<button type="button" onclick="document.getElementById('diaNew').close();">Cancel</button>
+			</footer>
+		</form>
+	</dialog>
 	<dialog id="diaInfo" class="info" aria-labelledby="icoInfo">
 		<article>
 			<gw-icon

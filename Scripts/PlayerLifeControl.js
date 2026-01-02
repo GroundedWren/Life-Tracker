@@ -209,6 +209,14 @@ window.GW = window.GW || {};
 
 			this.IsInitialized = true;
 		}
+
+		setMax(value) {
+			this.getRef("ring").setAttribute("denominator", value);
+		}
+
+		setLatest(value) {
+			this.getRef("ring").setAttribute("numerator", value);
+		}
 	}
 	if(!customElements.get(ns.PlayerLifeEl.Name)) {
 		customElements.define(ns.PlayerLifeEl.Name, ns.PlayerLifeEl);

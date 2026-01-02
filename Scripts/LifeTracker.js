@@ -8,7 +8,11 @@ window.GW = window.GW || {};
 	ns.onNewSubmit = (event) => {
 		event.preventDefault();
 		const formData = new FormData(event.target);
-		ns.Data.Steps = [{Top: parseInt(formData.get("top")), Bottom: parseInt(formData.get("bottom"))}];
+		ns.Data.Steps = [{
+			Top: parseInt(formData.get("top")),
+			Bottom: parseInt(formData.get("bottom")),
+			TimeStr: getTimeStr()}
+		];
 
 		document.getElementById("diaNew").close();
 		renderFromData();
@@ -35,16 +39,47 @@ window.GW = window.GW || {};
 		const latestStep = ns.Data.Steps[ns.Data.Steps.length - 1];
 		valueObj.Top = valueObj.Top || latestStep.Top;
 		valueObj.Bottom = valueObj.Bottom || latestStep.Bottom;
+		valueObj.TimeStr = getTimeStr();
 
 		ns.Data.Steps.push(valueObj);
 		ns.RedoStack = [];
 		renderFromData();
 	}
 
+	ns.setStep = function setStep(index) {
+		ns.RedoStack = ns.Data.Steps.splice(index + 1);
+		document.getElementById("diaHistory").close();
+		renderFromData();
+	}
+
+	ns.showHistory = function showHistory() {
+		document.getElementById("tbodyHistory").innerHTML = ns.Data.Steps.map((stepObj, index, ary) => { 
+			const topChanged = index > 0 && ary[index - 1]?.Top !== stepObj.Top;
+			const bottomChanged = index > 0 && ary[index - 1]?.Bottom !== stepObj.Bottom
+			return `
+			<tr>
+				<th scope="row">
+					<a
+						class="full"
+						href="javascript:void(0)"
+						onclick="GW.LifeTracker.setStep(${index})"
+					>${index + 1} - ${stepObj.TimeStr}<a>
+				</th>
+				<td>${topChanged ? "<mark>" : ""}${stepObj.Top}${topChanged ? "</mark>" : ""}</td>
+				<td>${bottomChanged ? "<mark>" : ""}${stepObj.Bottom}${bottomChanged ? "</mark>" : ""}</td>
+			</tr>
+		`}).join("");
+		document.getElementById("diaHistory").showModal();
+	}
+
 	ns.onDCL = () => {
-		ns.Data = JSON.parse(localStorage.getItem("data")) || {Steps: [{Top: 40, Bottom: 40}]};
+		ns.Data = JSON.parse(localStorage.getItem("data")) || {Steps: [{Top: 40, Bottom: 40, TimeStr: getTimeStr()}]};
 		renderFromData();
 	};
+
+	function getTimeStr() {
+		return new Date().toLocaleTimeString();
+	}
 
 	function renderFromData() {
 		const startingTop = ns.Data.Steps[0].Top;

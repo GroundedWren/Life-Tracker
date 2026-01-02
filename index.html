@@ -166,12 +166,14 @@
 			}
 		}
 
-		#diaNew {
+		dialog {
 			h1 {
 				background-color: var(--accent-color);
 				text-align: center;
 			}
+		}
 
+		#diaNew {
 			.input-grid {
 				margin-block: 10px;
 
@@ -188,11 +190,28 @@
 			}
 		}
 
+		#diaHistory {
+			th {
+				padding-inline: 2px;
+			}
+			tbody tr {
+				height: 44px !important;
+
+				text-align: center;
+			}
+
+			footer {
+				display: grid;
+				grid-template-rows: 44px;
+			}
+		}
+
 		.info {
 			figure {
 				display: grid;
 				grid-template-rows: auto auto;
 				justify-items: center;
+				text-align: center;
 			}
 		}
 	</style>
@@ -213,7 +232,7 @@
 				<gw-icon iconKey="forward-step" name="Redo"></gw-icon>
 			</button>
 		</div>
-		<button onclick="">
+		<button onclick="GW.LifeTracker.showHistory()">
 			<gw-icon iconKey="scroll" name="History"></gw-icon>
 		</button>
 	</header>
@@ -276,6 +295,22 @@
 				<button class="default-style" onclick="document.getElementById('diaInfo').close();">Close</button>
 			</footer>
 		</article>
+	</dialog>
+	<dialog id="diaHistory" aria-labelledby="hHistory">
+		<h1 id="hHistory">History</h1>
+		<table>
+			<thead>
+				<tr>
+					<td></td>
+					<th scope="col">Top</th>
+					<th scope="col">Bottom</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyHistory"></tbody>
+		</table>
+		<footer>
+			<button onclick="document.getElementById('diaHistory').close()">Close</button>
+		</footer>
 	</dialog>
 	<div class="hidden">
 		<span id="spnTopPlayerLbl">Top Player</span>

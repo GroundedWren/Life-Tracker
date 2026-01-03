@@ -72,9 +72,16 @@ window.GW = window.GW || {};
 		document.getElementById("diaHistory").showModal();
 	}
 
-	ns.onDCL = () => {
+	ns.onDCL = async () => {
 		ns.Data = JSON.parse(localStorage.getItem("data")) || {Steps: [{Top: 40, Bottom: 40, TimeStr: getTimeStr()}]};
 		renderFromData();
+
+		try {
+			await navigator.wakeLock.request("screen");
+			console.log("Wake locked");
+		} catch (err) {
+			console.log("Cannot wake lock");
+		}
 	};
 
 	function getTimeStr() {

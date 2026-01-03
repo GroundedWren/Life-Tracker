@@ -37,8 +37,8 @@ window.GW = window.GW || {};
 
 	ns.addStep = function addStep(valueObj) {
 		const latestStep = ns.Data.Steps[ns.Data.Steps.length - 1];
-		valueObj.Top = valueObj.Top || latestStep.Top;
-		valueObj.Bottom = valueObj.Bottom || latestStep.Bottom;
+		valueObj.Top = valueObj.Top ?? latestStep.Top;
+		valueObj.Bottom = valueObj.Bottom ?? latestStep.Bottom;
 		valueObj.TimeStr = getTimeStr();
 
 		ns.Data.Steps.push(valueObj);

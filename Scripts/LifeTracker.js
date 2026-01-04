@@ -53,9 +53,9 @@ window.GW = window.GW || {};
 	}
 
 	ns.showHistory = function showHistory() {
-		document.getElementById("tbodyHistory").innerHTML = ns.Data.Steps.map((stepObj, index, ary) => { 
-			const topChanged = index > 0 && ary[index - 1]?.Top !== stepObj.Top;
-			const bottomChanged = index > 0 && ary[index - 1]?.Bottom !== stepObj.Bottom
+		document.getElementById("tbodyHistory").innerHTML = ns.Data.Steps.map((stepObj, index, ary) => {
+			const topDiff = index > 0 ? stepObj.Top - ary[index - 1].Top : 0;
+			const bottomDiff = index > 0 ? stepObj.Bottom - ary[index - 1]?.Bottom : 0;
 			return `
 			<tr>
 				<th scope="row">
@@ -65,11 +65,15 @@ window.GW = window.GW || {};
 						onclick="GW.LifeTracker.setStep(${index})"
 					>${index + 1} - ${stepObj.TimeStr}<a>
 				</th>
-				<td>${topChanged ? "<mark>" : ""}${stepObj.Top}${topChanged ? "</mark>" : ""}</td>
-				<td>${bottomChanged ? "<mark>" : ""}${stepObj.Bottom}${bottomChanged ? "</mark>" : ""}</td>
+				<td>${stepObj.Top}${topDiff ? `<mark>${getDiffStr(topDiff)}</mark>` : "<br>&nbsp;"}</td>
+				<td>${stepObj.Bottom}${bottomDiff ? `<mark>${getDiffStr(bottomDiff)}</mark>` : "<br>&nbsp;"}</td>
 			</tr>
 		`}).join("");
 		document.getElementById("diaHistory").showModal();
+	}
+
+	function getDiffStr(diff) {
+		return `<br>(${diff > 0 ? "+" : ""}${diff})`;
 	}
 
 	ns.onDCL = async () => {

@@ -28,6 +28,7 @@ window.GW = window.GW || {};
 				grid-template-columns: 1fr 1fr;
 
 				gw-progress-ring {
+					z-index: 1;
 					justify-self: center;
 					grid-column: 1 / span 2;
 					grid-row: 1 / span 1;
@@ -38,11 +39,12 @@ window.GW = window.GW || {};
 					grid-column: 1 / span 2;
 					grid-row: 1 / span 1;
 
-					z-index: 2;
+					z-index: 3;
 
 					border-radius: 100%;
 					justify-self: center;
-					height: 100%;
+					align-self: center;
+					height: 66%;
 					aspect-ratio: 1 / 1;
 
 					display: grid;
@@ -75,29 +77,60 @@ window.GW = window.GW || {};
 				}
 
 				.adjuster {
-					display: grid;
-					grid-template-columns: auto auto;
-					justify-content: center;
-					align-items: center;
-					gap: 5px;
-					font-size: 1.5em;
-				}
+					&:is(div) {
+						z-index: 2;
+						grid-row: 1 / -1;
+						opacity: 0.3;
 
-				.minus-one {
-					grid-column: 1;
-					grid-row: 3;
+						&.plus-one {
+							grid-column: 2 / span 1;
+						}
+
+						&.minus-one {
+							grid-column: 1 / span 1;
+						}
+					}
+					
+					&:is(button) {
+						z-index: 2;
+
+						display: grid;
+						grid-template-columns: auto auto;
+						justify-content: center;
+						align-items: center;
+						gap: 5px;
+						font-size: 1.5em;
+
+						&.minus-one {
+							grid-column: 1;
+							grid-row: 2;
+						}
+						&.plus-one {
+							grid-column: 2;
+							grid-row: 2;
+						}
+						&.minus-five {
+							grid-column: 1;
+							grid-row: 3;
+						}
+						&.plus-five {
+							grid-column: 2;
+							grid-row: 3;
+						}
+					}
 				}
-				.plus-one {
-					grid-column: 2;
-					grid-row: 3;
+				
+				&:has(.plus-one:hover) {
+					.plus-one {
+						--btn-color: lightsteelblue;
+						background-color: lightsteelblue;
+					}
 				}
-				.minus-five {
-					grid-column: 1;
-					grid-row: 2;
-				}
-				.plus-five {
-					grid-column: 2;
-					grid-row: 2;
+				&:has(.minus-one:hover) {
+					.minus-one {
+						--btn-color: lightsteelblue;
+						background-color: lightsteelblue;
+					}
 				}
 			}`);
 		}
@@ -219,20 +252,22 @@ window.GW = window.GW || {};
 					numerator="40"
 					denominator="40"
 				></gw-progress-ring>
-				<button id="${this.getId("btnPlusOne")}" class="adjuster plus-one">
-					<gw-icon iconKey="plus" name="Add"></gw-icon>
-					1
-				</button>
+				<div id=${this.getId("divPlusOne")} class="adjuster plus-one"></div>
+				<div id=${this.getId("divMinusOne")} class="adjuster minus-one"></div>
 				<button id="${this.getId("btnMinusOne")}" class="adjuster minus-one">
 					<gw-icon iconKey="minus" name="Subtract"></gw-icon>
 					1
 				</button>
-				<button id="${this.getId("btnPlusFive")}" class="adjuster plus-five">
+				<button id="${this.getId("btnPlusOne")}" class="adjuster plus-one">
 					<gw-icon iconKey="plus" name="Add"></gw-icon>
-					5
+					1
 				</button>
 				<button id="${this.getId("btnMinusFive")}" class="adjuster minus-five">
 					<gw-icon iconKey="minus" name="Subtract"></gw-icon>
+					5
+				</button>
+				<button id="${this.getId("btnPlusFive")}" class="adjuster plus-five">
+					<gw-icon iconKey="plus" name="Add"></gw-icon>
 					5
 				</button>
 				<button id="${this.getId("btnAccept")}"
@@ -241,10 +276,15 @@ window.GW = window.GW || {};
 				></button>
 			`;
 
+			this.getRef("divPlusOne").addEventListener("click", () => {this.#stageModify(1)});
+			this.getRef("divMinusOne").addEventListener("click", () => {this.#stageModify(-1)});
+
 			this.getRef("btnPlusOne").addEventListener("click", () => {this.#stageModify(1)});
 			this.getRef("btnMinusOne").addEventListener("click", () => {this.#stageModify(-1)});
+
 			this.getRef("btnPlusFive").addEventListener("click", () => {this.#stageModify(5)});
 			this.getRef("btnMinusFive").addEventListener("click", () => {this.#stageModify(-5)});
+
 			this.getRef("btnAccept").addEventListener("click", () => {this.#doModify()});
 
 			this.IsInitialized = true;

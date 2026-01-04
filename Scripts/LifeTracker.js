@@ -13,6 +13,7 @@ window.GW = window.GW || {};
 			Bottom: parseInt(formData.get("bottom")),
 			TimeStr: getTimeStr()}
 		];
+		ns.RedoStack = [];
 
 		document.getElementById("diaNew").close();
 		document.documentElement.requestFullscreen();

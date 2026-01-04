@@ -313,10 +313,12 @@ window.GW = window.GW || {};
 
 		setMax(value) {
 			this.getRef("ring").setAttribute("denominator", value);
+			this.#stageModify(this.#StagedModify * -1);
 		}
 
 		setLatest(value) {
 			this.getRef("ring").setAttribute("numerator", value);
+			this.#stageModify(this.#StagedModify * -1);
 		}
 	}
 	if(!customElements.get(ns.PlayerLifeEl.Name)) {

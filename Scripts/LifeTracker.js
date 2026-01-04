@@ -116,7 +116,7 @@ window.GW = window.GW || {};
 		plTop.setLatest(latestTop);
 
 		const plBottom = document.getElementById("plBottom");
-		plBottom.setMax(startingTop);
+		plBottom.setMax(startingBottom);
 		plBottom.setLatest(latestBottom);
 
 		if(ns.Data.Steps.length > 1) {

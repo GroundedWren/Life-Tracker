@@ -285,7 +285,7 @@ window.GW = window.GW || {};
 			this.getRef("btnPlusFive").addEventListener("click", () => {this.#stageModify(5)});
 			this.getRef("btnMinusFive").addEventListener("click", () => {this.#stageModify(-5)});
 
-			this.getRef("btnAccept").addEventListener("click", () => {this.#doModify()});
+			this.getRef("btnAccept").addEventListener("click", (event) => {this.#doModify(event)});
 
 			this.IsInitialized = true;
 		}
@@ -303,12 +303,14 @@ window.GW = window.GW || {};
 				: null;
 		}
 
-		#doModify() {
+		#doModify(event) {
 			const newValue = parseInt(this.getRef("ring").getAttribute("numerator")) + this.#StagedModify;
 			this.getRef("btnAccept").innerHTML = "";
 			this.#StagedModify = 0;
 
 			GW.LifeTracker.addStep({[this.getAttribute("key")]: newValue});
+
+			event.stopPropagation();
 		}
 
 		setMax(value) {

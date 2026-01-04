@@ -261,7 +261,7 @@
 			</div>
 			<footer>
 				<button type="submit" autofocus>Start</button>
-				<button type="button" onclick="document.getElementById('diaNew').close();">Cancel</button>
+				<button type="button" onclick="document.getElementById('diaNew').close();document.documentElement.requestFullscreen();">Cancel</button>
 			</footer>
 		</form>
 	</dialog>
@@ -309,7 +309,7 @@
 			<tbody id="tbodyHistory"></tbody>
 		</table>
 		<footer>
-			<button onclick="document.getElementById('diaHistory').close()">Close</button>
+			<button onclick="document.getElementById('diaHistory').close();">Close</button>
 		</footer>
 	</dialog>
 	<div class="hidden">

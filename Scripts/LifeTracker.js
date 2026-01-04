@@ -15,6 +15,7 @@ window.GW = window.GW || {};
 		];
 
 		document.getElementById("diaNew").close();
+		document.documentElement.requestFullscreen();
 		renderFromData();
 	};
 
@@ -79,6 +80,12 @@ window.GW = window.GW || {};
 	ns.onDCL = async () => {
 		ns.Data = JSON.parse(localStorage.getItem("data")) || {Steps: [{Top: 40, Bottom: 40, TimeStr: getTimeStr()}]};
 		renderFromData();
+
+		document.documentElement.addEventListener("click", (event) => {
+			if(!event.target.closest(`button, input, select, summary`)) {
+				document.documentElement.requestFullscreen();
+			}
+		});
 
 		try {
 			await navigator.wakeLock.request("screen");

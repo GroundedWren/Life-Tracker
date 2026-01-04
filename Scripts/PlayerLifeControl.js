@@ -247,7 +247,7 @@ window.GW = window.GW || {};
 			this.innerHTML = `
 				<gw-progress-ring
 					id="${this.getId("ring")}"
-					name="${this.getAttribute("name")} Life Total"
+					name="${this.getAttribute("key")} Life Total"
 					disablesrnotif
 					numerator="40"
 					denominator="40"

@@ -83,6 +83,11 @@ window.GW = window.GW || {};
 							font-size: 1.45em;
 						}
 					}
+
+					.flipped-text {
+						font-family: 'Segoe UI', Arial, Verdana, Tahoma, 'Trebuchet MS', sans-serif;
+						font-size: 0.8em;
+					}
 				}
 				&:not([forceAnimate]) {
 					@media(prefers-reduced-motion: reduce) {
@@ -274,6 +279,11 @@ window.GW = window.GW || {};
 					dominant-baseline="middle"
 					text-anchor="middle"
 				></text>
+				<text class="flipped-text"
+					transform="scale(-1, -1) translate(-${ProgressRingEl.#VbxWidth / 2}, -${ProgressRingEl.#VbxHeight / 4})"
+					dominant-baseline="middle"
+					text-anchor="middle"
+				></text>
 			</svg>`;
 
 			this.IsInitialized = true;
@@ -295,8 +305,11 @@ window.GW = window.GW || {};
 			svgEl.setAttribute("aria-label", this.getAttribute("name"));
 			svgEl.setAttribute("role", this.hasAttribute("progressbar") ? "progressbar" : "figure");
 
-			const textEl = svgEl.querySelector(`text`);
+			const textEl = svgEl.querySelector(`.text`);
 			textEl.textContent = this.#getTextContent();
+
+			const flippedTextEl = svgEl.querySelector(`.flipped-text`);
+			flippedTextEl.textContent = this.Numerator;
 
 			this.#StyleSheet.replaceSync(`${ProgressRingEl.Name}[data-instance="${this.InstanceId}"] {
 				min-width: calc(${textEl.textContent.length}ch + 15px);

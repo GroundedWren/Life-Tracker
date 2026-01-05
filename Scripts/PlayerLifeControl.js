@@ -44,7 +44,7 @@ window.GW = window.GW || {};
 					border-radius: 100%;
 					justify-self: center;
 					align-self: center;
-					height: 66%;
+					height: 60%;
 					aspect-ratio: 1 / 1;
 
 					display: grid;

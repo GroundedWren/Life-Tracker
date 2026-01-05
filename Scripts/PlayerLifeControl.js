@@ -304,7 +304,7 @@ window.GW = window.GW || {};
 		}
 
 		#doModify(event) {
-			const newValue = parseInt(this.getRef("ring").getAttribute("numerator")) + this.#StagedModify;
+			const newValue = this.getStagedValue();
 			this.getRef("btnAccept").innerHTML = "";
 			this.#StagedModify = 0;
 
@@ -321,6 +321,10 @@ window.GW = window.GW || {};
 		setLatest(value) {
 			this.getRef("ring").setAttribute("numerator", value);
 			this.#stageModify(this.#StagedModify * -1);
+		}
+
+		getStagedValue() {
+			return parseInt(this.getRef("ring").getAttribute("numerator")) + this.#StagedModify;
 		}
 	}
 	if(!customElements.get(ns.PlayerLifeEl.Name)) {

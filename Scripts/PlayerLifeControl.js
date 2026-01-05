@@ -316,15 +316,42 @@ window.GW = window.GW || {};
 		setMax(value) {
 			this.getRef("ring").setAttribute("denominator", value);
 			this.#stageModify(this.#StagedModify * -1);
+			this.#updateColor();
 		}
 
 		setLatest(value) {
 			this.getRef("ring").setAttribute("numerator", value);
 			this.#stageModify(this.#StagedModify * -1);
+			this.#updateColor();
 		}
 
 		getStagedValue() {
 			return parseInt(this.getRef("ring").getAttribute("numerator")) + this.#StagedModify;
+		}
+
+		#updateColor() {
+			const ratio = this.#getRatio();
+
+			let color = "#008000";
+			let dotColor = "#50e150";
+			if(ratio > 1) {
+				dotColor = "#8000FF";
+			}
+			if(ratio <= 0.25) {
+				color = "#B30000";
+				dotColor = "#660000";
+			}
+			else if (ratio <= 0.5) {
+				color = "#FF8000";
+				dotColor = "#000000";
+			}
+			this.getRef("ring").style.setProperty("--progress-color", color);
+			this.getRef("ring").style.setProperty("--dot-color", dotColor);
+		}
+
+		#getRatio() {
+			const ring = this.getRef("ring");
+			return parseInt(ring.getAttribute("numerator")) / parseInt(ring.getAttribute("denominator"));
 		}
 	}
 	if(!customElements.get(ns.PlayerLifeEl.Name)) {

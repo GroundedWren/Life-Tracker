@@ -283,6 +283,7 @@ window.GW = window.GW || {};
 					transform="scale(-1, -1) translate(-${ProgressRingEl.#VbxWidth / 2}, -${ProgressRingEl.#VbxHeight / 4})"
 					dominant-baseline="middle"
 					text-anchor="middle"
+					aria-hidden="true"
 				></text>
 			</svg>`;
 

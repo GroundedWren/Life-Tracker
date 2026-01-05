@@ -248,12 +248,11 @@ window.GW = window.GW || {};
 				<gw-progress-ring
 					id="${this.getId("ring")}"
 					name="${this.getAttribute("key")} Life Total"
-					disablesrnotif
 					numerator="40"
 					denominator="40"
 				></gw-progress-ring>
-				<div id=${this.getId("divPlusOne")} class="adjuster plus-one"></div>
-				<div id=${this.getId("divMinusOne")} class="adjuster minus-one"></div>
+				<div id=${this.getId("divPlusOne")} class="adjuster plus-one" aria-hidden="true"></div>
+				<div id=${this.getId("divMinusOne")} class="adjuster minus-one" aria-hidden="true"></div>
 				<button id="${this.getId("btnMinusOne")}" class="adjuster minus-one">
 					<gw-icon iconKey="minus" name="Subtract"></gw-icon>
 					1
@@ -298,7 +297,7 @@ window.GW = window.GW || {};
 			this.getRef("btnAccept").innerHTML = this.#StagedModify
 				? 	`<span class="content">
 						<span class="equation">${curVal} ${this.#StagedModify > 0 ? "+" : "-"} ${Math.abs(this.#StagedModify)}</span>
-						<span class="result">= ${curVal + this.#StagedModify}</span>
+						<span class="result" role="alert">= ${curVal + this.#StagedModify}</span>
 					</span>`
 				: null;
 		}

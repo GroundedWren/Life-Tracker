@@ -87,7 +87,7 @@ window.GW = window.GW || {};
 		renderFromData();
 
 		document.documentElement.addEventListener("click", (event) => {
-			if(!event.target.closest(`button, input, select, summary`)) {
+			if(!event.target.closest(`button, input, select, summary, a`)) {
 				document.documentElement.requestFullscreen();
 			}
 		});

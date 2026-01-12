@@ -35,6 +35,7 @@ window.GW = window.GW || {};
 					grid-column: 1 / span 2;
 					grid-row: 1 / span 1;
 					height: 100%;
+					outline: none;
 				}
 
 				.accept {
@@ -64,6 +65,24 @@ window.GW = window.GW || {};
 					&[disabled] {
 						--btn-transparency: 100%;
 						cursor: default;
+					}
+
+					border-color: var(--link-color) !important;
+					&[data-ticks] {
+						border: 3px solid var(--link-color) !important;
+						transition: border-color 1s linear;
+					}
+					&[data-ticks="4"],&[data-ticks="3"],&[data-ticks="2"],&[data-ticks="1"] {
+						border-block-start-color: transparent !important;
+					}
+					&[data-ticks="3"],&[data-ticks="2"],&[data-ticks="1"] {
+						border-inline-start-color: transparent !important;
+					}
+					&[data-ticks="2"],&[data-ticks="1"] {
+						border-block-end-color: transparent !important;
+					}
+					&[data-ticks="1"] {
+						border-inline-end-color: transparent !important;
 					}
 
 					.content {
@@ -173,6 +192,7 @@ window.GW = window.GW || {};
 		});
 
 		#StagedModify = 0;
+		#ModifyInterval;
 
 		/** Creates an instance */
 		constructor() {
@@ -330,7 +350,7 @@ window.GW = window.GW || {};
 
 			GW.LifeTracker.addStep({[this.getAttribute("key")]: newValue});
 
-			event.stopPropagation();
+			event?.stopPropagation();
 		}
 
 		#updateBtnAccept() {
@@ -345,10 +365,34 @@ window.GW = window.GW || {};
 							<span class="subtractor">${Math.abs(this.#StagedModify)}</span>
 						</span>
 						<span class="result" role="alert">= ${curVal + this.#StagedModify}</span>
-					</span>`
+					</span>`;
+
+				if(this.#ModifyInterval) {
+					clearInterval(this.#ModifyInterval);
+					this.#ModifyInterval = null;
+				}
+				if(this.hasAttribute("timeout")) {
+					btnAccept.removeAttribute("data-ticks");
+					requestAnimationFrame(() => {
+						btnAccept.setAttribute("data-ticks", "4");
+					});
+
+					this.#ModifyInterval = setInterval(() => {
+						const ticks = parseInt(btnAccept.getAttribute("data-ticks"));
+						btnAccept.setAttribute("data-ticks", ticks - 1);
+						if(!(ticks - 1)) {
+							this.#doModify();
+						}
+					}, 1000);
+				}
 			}
 			else {
 				btnAccept.setAttribute("disabled", "true");
+				btnAccept.removeAttribute("data-ticks");
+				if(this.#ModifyInterval) {
+					clearInterval(this.#ModifyInterval);
+					this.#ModifyInterval = null;
+				}
 				btnAccept.innerHTML = "";
 			}
 		}

@@ -179,6 +179,7 @@
 				grid-template-columns: auto auto;
 				margin-block-end: 5px;
 			}
+
 			.input-grid {
 				margin-block: 10px;
 
@@ -186,6 +187,13 @@
 					font-size: 1.5em;
 					line-height: 44px;
 				}
+			}
+
+			.full-width {
+				width: 100%;
+				justify-content: center;
+				margin-block-end: 5px;
+				height: 44px;
 			}
 
 			.quick-buttons, footer {
@@ -263,10 +271,10 @@
 		</button>
 	</header>
 	<section id="secPlayerTop" aria-labelledby="spnTopPlayerLbl">
-		<gw-player-life id="plTop" key="Top"></gw-player-life>
+		<gw-player-life id="plTop" key="Top" timeout></gw-player-life>
 	</section>
 	<section id="secPlayerBottom" aria-labelledby="spnBottomPlayerLbl">
-		<gw-player-life id="plBottom" key="Bottom"></gw-player-life>
+		<gw-player-life id="plBottom" key="Bottom" timeout></gw-player-life>
 	</section>
 	<dialog id="diaNew" aria-labelledby="hNew">
 		<form aria-labelledby="hNew" onsubmit="GW.LifeTracker.onNewSubmit(event);">
@@ -290,6 +298,12 @@
 					<input type="number" name="bottom" required min="0" max="999" value="40">
 				</label>
 			</div>
+			<label class="full-width">
+				<gw-switch title="4s timeout to apply life adjustments">
+					<input type="checkbox" id="cbxAutoSubmit" autocomplete="off" checked>
+				</gw-switch>
+				<span>Timeout to submit changes</span>
+			</label>
 			<footer>
 				<button type="submit" autofocus>Start</button>
 				<button type="button" onclick="document.getElementById('diaNew').close();">Cancel</button>

@@ -85,6 +85,12 @@ window.GW = window.GW || {};
 		ns.Data = JSON.parse(localStorage.getItem("data")) || {Steps: [{Top: 40, Bottom: 40, TimeStr: getTimeStr()}]};
 		renderFromData();
 
+		if(localStorage.getItem("auto-submit") === "false") {
+			document.getElementById("cbxAutoSubmit").checked = false;
+		}
+		updateAutoSubmit();
+		document.getElementById("cbxAutoSubmit").closest(`gw-switch`).addEventListener("change", updateAutoSubmit);
+
 		document.addEventListener("fullscreenchange", onFullscreenChanged);
 
 		try {
@@ -92,6 +98,19 @@ window.GW = window.GW || {};
 			console.log("Wake locked");
 		} catch (err) {
 			console.log("Cannot wake lock");
+		}
+	};
+
+	const updateAutoSubmit = () => {
+		const autoSubmitOn = document.getElementById("cbxAutoSubmit").checked;
+		localStorage.setItem("auto-submit", autoSubmitOn)
+
+		const lifeControls = document.querySelectorAll(`gw-player-life`);
+		if(autoSubmitOn) {
+			lifeControls.forEach(control => control.setAttribute("timeout", ""));
+		}
+		else {
+			lifeControls.forEach(control => control.removeAttribute("timeout"));
 		}
 	};
 

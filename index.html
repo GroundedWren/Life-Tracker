@@ -280,7 +280,10 @@
 		<form aria-labelledby="hNew" onsubmit="GW.LifeTracker.onNewSubmit(event);">
 			<div class="header">
 				<h1 id="hNew">New Game</h1>
-				<button onclick="document.getElementById('diaNew').close();document.getElementById('diaInfo').showModal()">
+				<button
+					type="button"
+					onclick="document.getElementById('diaNew').close();document.getElementById('diaInfo').showModal()"
+				>
 				<gw-icon iconKey="circle-info" name="Info"></gw-icon>
 			</button>
 			</div>

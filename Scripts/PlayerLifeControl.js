@@ -21,10 +21,12 @@ window.GW = window.GW || {};
 		static {
 			PlayerLife.#CommonStyleSheet.replaceSync(`${PlayerLife.Name} {
 				contain: strict;
+				container-type: size;
 				position: relative;
+				padding-block-end: 5px;
 
 				display: grid;
-				grid-template-rows: 1fr 44px 44px;
+				grid-template-rows: 1fr 50px 50px;
 				grid-template-columns: 1fr 1fr;
 
 				gw-progress-ring {
@@ -51,7 +53,11 @@ window.GW = window.GW || {};
 					justify-content: center;
 					align-content: center;
 
-					font-size: 2em;
+					font-size: 1.8em;
+
+					@container(height < 325px) {
+						font-size: 1em;
+					}
 
 					--btn-transparency: 50%;
 
@@ -69,6 +75,14 @@ window.GW = window.GW || {};
 						padding: 20px;
 						background-color: var(--btn-color);
 						aspect-ratio: 1 / 1;
+
+						.subtractor {
+							display: inline-block;
+							border-radius: 10px;
+							padding-inline: 2px;
+							background-color: var(--text-color);
+							color: var(--background-color)
+						}
 
 						.result {
 							font-weight: bold;
@@ -97,6 +111,9 @@ window.GW = window.GW || {};
 					&:is(button) {
 						z-index: 2;
 
+						--margin-size: 5px;
+						margin-block: var(--margin-size);
+
 						display: grid;
 						grid-template-columns: auto auto;
 						justify-content: center;
@@ -107,18 +124,22 @@ window.GW = window.GW || {};
 						&.minus-one {
 							grid-column: 1;
 							grid-row: 2;
+							margin-inline-end: var(--margin-size);
 						}
 						&.plus-one {
 							grid-column: 2;
 							grid-row: 2;
+							margin-inline-start: var(--margin-size);
 						}
 						&.minus-five {
 							grid-column: 1;
 							grid-row: 3;
+							margin-inline-end: var(--margin-size);
 						}
 						&.plus-five {
 							grid-column: 2;
 							grid-row: 3;
+							margin-inline-start: var(--margin-size);
 						}
 					}
 				}
@@ -320,7 +341,9 @@ window.GW = window.GW || {};
 				btnAccept.removeAttribute("disabled");
 				btnAccept.innerHTML = 
 					`<span class="content">
-						<span class="equation">${curVal} ${this.#StagedModify > 0 ? "+" : "-"} ${Math.abs(this.#StagedModify)}</span>
+						<span class="equation">${curVal} ${this.#StagedModify > 0 ? "+" : "-"} 
+							<span class="subtractor">${Math.abs(this.#StagedModify)}</span>
+						</span>
 						<span class="result" role="alert">= ${curVal + this.#StagedModify}</span>
 					</span>`
 			}

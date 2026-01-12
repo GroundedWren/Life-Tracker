@@ -55,8 +55,9 @@ window.GW = window.GW || {};
 
 					--btn-transparency: 50%;
 
-					&:empty {
-						display: none;
+					&[disabled] {
+						--btn-transparency: 100%;
+						cursor: default;
 					}
 
 					.content {
@@ -81,6 +82,8 @@ window.GW = window.GW || {};
 						z-index: 2;
 						grid-row: 1 / -1;
 						opacity: 0.3;
+
+						cursor: pointer;
 
 						&.plus-one {
 							grid-column: 2 / span 1;
@@ -250,6 +253,8 @@ window.GW = window.GW || {};
 					name="${this.getAttribute("key")} Life Total"
 					numerator="40"
 					denominator="40"
+					tabindex="-1"
+					class="outline-unset"
 				></gw-progress-ring>
 				<div id=${this.getId("divPlusOne")} class="adjuster plus-one" aria-hidden="true"></div>
 				<div id=${this.getId("divMinusOne")} class="adjuster minus-one" aria-hidden="true"></div>
@@ -272,6 +277,7 @@ window.GW = window.GW || {};
 				<button id="${this.getId("btnAccept")}"
 					aria-labelledby="spnAcceptLbl ${this.getId("btnAccept")}"
 					class="accept"
+					disabled
 				></button>
 			`;
 
@@ -292,24 +298,36 @@ window.GW = window.GW || {};
 		#stageModify(value) {
 			this.#StagedModify += value;
 
-			const curVal = parseInt(this.getRef("ring").getAttribute("numerator"));
-
-			this.getRef("btnAccept").innerHTML = this.#StagedModify
-				? 	`<span class="content">
-						<span class="equation">${curVal} ${this.#StagedModify > 0 ? "+" : "-"} ${Math.abs(this.#StagedModify)}</span>
-						<span class="result" role="alert">= ${curVal + this.#StagedModify}</span>
-					</span>`
-				: null;
+			this.#updateBtnAccept();
 		}
 
 		#doModify(event) {
 			const newValue = this.getStagedValue();
-			this.getRef("btnAccept").innerHTML = "";
 			this.#StagedModify = 0;
+			this.#updateBtnAccept();
+			this.getRef("ring").focus();
 
 			GW.LifeTracker.addStep({[this.getAttribute("key")]: newValue});
 
 			event.stopPropagation();
+		}
+
+		#updateBtnAccept() {
+			const curVal = parseInt(this.getRef("ring").getAttribute("numerator"));
+			const btnAccept = this.getRef("btnAccept");
+			
+			if(this.#StagedModify) {
+				btnAccept.removeAttribute("disabled");
+				btnAccept.innerHTML = 
+					`<span class="content">
+						<span class="equation">${curVal} ${this.#StagedModify > 0 ? "+" : "-"} ${Math.abs(this.#StagedModify)}</span>
+						<span class="result" role="alert">= ${curVal + this.#StagedModify}</span>
+					</span>`
+			}
+			else {
+				btnAccept.setAttribute("disabled", "true");
+				btnAccept.innerHTML = "";
+			}
 		}
 
 		setMax(value) {

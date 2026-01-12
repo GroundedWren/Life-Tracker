@@ -16,7 +16,6 @@ window.GW = window.GW || {};
 		ns.RedoStack = [];
 
 		document.getElementById("diaNew").close();
-		document.documentElement.requestFullscreen();
 		renderFromData();
 	};
 
@@ -86,11 +85,7 @@ window.GW = window.GW || {};
 		ns.Data = JSON.parse(localStorage.getItem("data")) || {Steps: [{Top: 40, Bottom: 40, TimeStr: getTimeStr()}]};
 		renderFromData();
 
-		document.documentElement.addEventListener("click", (event) => {
-			if(!event.target.closest(`button, input, select, summary, a`)) {
-				document.documentElement.requestFullscreen();
-			}
-		});
+		document.addEventListener("fullscreenchange", onFullscreenChanged);
 
 		try {
 			await navigator.wakeLock.request("screen");
@@ -98,6 +93,24 @@ window.GW = window.GW || {};
 		} catch (err) {
 			console.log("Cannot wake lock");
 		}
+	};
+
+	ns.onFullscreenClicked = () => {
+		if(document.fullscreenElement) {
+			document.exitFullscreen();
+		}
+		else {
+			document.documentElement.requestFullscreen();
+		}
+	};
+
+	const onFullscreenChanged = () => {
+		document.getElementById("btnFullscreen").setAttribute(
+			"aria-pressed",
+			 document.fullscreenElement
+				? "true"
+				: "false"
+		);
 	};
 
 	function getTimeStr() {

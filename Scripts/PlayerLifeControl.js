@@ -38,6 +38,27 @@ window.GW = window.GW || {};
 					outline: none;
 				}
 
+				&[timeout] {
+					.accept:not([disabled]) {
+						border: 2px solid var(--link-color) !important;
+						&[data-ticks] {
+							transition: border-color 1s linear;
+						}
+						&[data-ticks="4"],&[data-ticks="3"],&[data-ticks="2"],&[data-ticks="1"] {
+							border-block-start-color: transparent !important;
+						}
+						&[data-ticks="3"],&[data-ticks="2"],&[data-ticks="1"] {
+							border-inline-start-color: transparent !important;
+						}
+						&[data-ticks="2"],&[data-ticks="1"] {
+							border-block-end-color: transparent !important;
+						}
+						&[data-ticks="1"] {
+							border-inline-end-color: transparent !important;
+						}
+					}
+				}
+
 				.accept {
 					grid-column: 1 / span 2;
 					grid-row: 1 / span 1;
@@ -65,24 +86,6 @@ window.GW = window.GW || {};
 					&[disabled] {
 						--btn-transparency: 100%;
 						cursor: default;
-					}
-
-					border-color: var(--link-color) !important;
-					&[data-ticks] {
-						border: 3px solid var(--link-color) !important;
-						transition: border-color 1s linear;
-					}
-					&[data-ticks="4"],&[data-ticks="3"],&[data-ticks="2"],&[data-ticks="1"] {
-						border-block-start-color: transparent !important;
-					}
-					&[data-ticks="3"],&[data-ticks="2"],&[data-ticks="1"] {
-						border-inline-start-color: transparent !important;
-					}
-					&[data-ticks="2"],&[data-ticks="1"] {
-						border-block-end-color: transparent !important;
-					}
-					&[data-ticks="1"] {
-						border-inline-end-color: transparent !important;
 					}
 
 					.content {
@@ -373,9 +376,9 @@ window.GW = window.GW || {};
 				}
 				if(this.hasAttribute("timeout")) {
 					btnAccept.removeAttribute("data-ticks");
-					requestAnimationFrame(() => {
+					setTimeout(() => {
 						btnAccept.setAttribute("data-ticks", "4");
-					});
+					}, 0);
 
 					this.#ModifyInterval = setInterval(() => {
 						const ticks = parseInt(btnAccept.getAttribute("data-ticks"));

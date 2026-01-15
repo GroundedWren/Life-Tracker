@@ -71,6 +71,8 @@ window.GW = window.GW || {};
 					height: 60%;
 					aspect-ratio: 1 / 1;
 
+					transform: rotate(-45deg);
+
 					display: grid;
 					justify-content: center;
 					align-content: center;
@@ -89,6 +91,8 @@ window.GW = window.GW || {};
 					}
 
 					.content {
+						transform: rotate(45deg);
+
 						display: grid;
 						grid-template-rows: auto auto;
 						align-items: center;

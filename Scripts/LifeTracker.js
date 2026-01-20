@@ -37,12 +37,14 @@ window.GW = window.GW || {};
 	}
 
 	ns.addStep = function addStep(valueObj) {
+		const isAutoSubmitOn = document.getElementById("cbxAutoSubmit").checked;
+
 		const latestStep = ns.Data.Steps[ns.Data.Steps.length - 1];
 		valueObj.Top = valueObj.Top
-			?? document.querySelector(`gw-player-life[key="Top"]`)?.getStagedValue()
+			?? (isAutoSubmitOn ? null : document.querySelector(`gw-player-life[key="Top"]`)?.getStagedValue())
 			?? latestStep.Top;
 		valueObj.Bottom = valueObj.Bottom
-			?? document.querySelector(`gw-player-life[key="Bottom"]`)?.getStagedValue()
+			?? (isAutoSubmitOn ? null : document.querySelector(`gw-player-life[key="Bottom"]`)?.getStagedValue())
 			?? latestStep.Bottom;
 		valueObj.TimeStr = getTimeStr();
 
@@ -102,11 +104,11 @@ window.GW = window.GW || {};
 	};
 
 	const updateAutoSubmit = () => {
-		const autoSubmitOn = document.getElementById("cbxAutoSubmit").checked;
-		localStorage.setItem("auto-submit", autoSubmitOn)
+		const isAutoSubmitOn = document.getElementById("cbxAutoSubmit").checked;
+		localStorage.setItem("auto-submit", isAutoSubmitOn)
 
 		const lifeControls = document.querySelectorAll(`gw-player-life`);
-		if(autoSubmitOn) {
+		if(isAutoSubmitOn) {
 			lifeControls.forEach(control => control.setAttribute("timeout", ""));
 		}
 		else {

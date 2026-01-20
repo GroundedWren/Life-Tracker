@@ -39,6 +39,10 @@ window.GW = window.GW || {};
 				}
 
 				&[timeout] {
+					.accept {
+						z-index: 1;
+					}
+
 					.accept:not([disabled]) {
 						border: 2px solid var(--link-color) !important;
 						&[data-ticks] {
@@ -405,12 +409,18 @@ window.GW = window.GW || {};
 		}
 
 		setMax(value) {
+			if(this.getRef("ring").getAttribute("denominator") == value) {
+				return;
+			}
 			this.getRef("ring").setAttribute("denominator", value);
 			this.#stageModify(this.#StagedModify * -1);
 			this.#updateColor();
 		}
 
 		setLatest(value) {
+			if(this.getRef("ring").getAttribute("numerator") == value) {
+				return;
+			}
 			this.getRef("ring").setAttribute("numerator", value);
 			this.#stageModify(this.#StagedModify * -1);
 			this.#updateColor();

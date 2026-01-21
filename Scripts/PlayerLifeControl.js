@@ -26,7 +26,7 @@ window.GW = window.GW || {};
 				padding-block-end: 5px;
 
 				display: grid;
-				grid-template-rows: 1fr 50px 50px;
+				grid-template-rows: 1fr auto 60px;
 				grid-template-columns: 1fr 1fr;
 
 				gw-progress-ring {
@@ -46,7 +46,7 @@ window.GW = window.GW || {};
 					.accept:not([disabled]) {
 						border: 2px solid var(--link-color) !important;
 						&[data-ticks] {
-							transition: border-color 1s linear;
+							transition: border-color 600ms linear;
 						}
 						&[data-ticks="4"],&[data-ticks="3"],&[data-ticks="2"],&[data-ticks="1"] {
 							border-block-start-color: transparent !important;
@@ -60,6 +60,10 @@ window.GW = window.GW || {};
 						&[data-ticks="1"] {
 							border-inline-end-color: transparent !important;
 						}
+					}
+
+					button.adjuster:is(.plus-one, .minus-one) {
+						--adj-btn-transparency: 100%;
 					}
 				}
 
@@ -141,9 +145,6 @@ window.GW = window.GW || {};
 					&:is(button) {
 						z-index: 2;
 
-						--margin-size: 5px;
-						margin-block: var(--margin-size);
-
 						display: grid;
 						grid-template-columns: auto auto;
 						justify-content: center;
@@ -151,25 +152,32 @@ window.GW = window.GW || {};
 						gap: 5px;
 						font-size: 1.5em;
 
+						min-height: unset !important;
+						height: auto !important;
+
+						margin-inline: 5px;
+
 						&.minus-one {
 							grid-column: 1;
 							grid-row: 2;
-							margin-inline-end: var(--margin-size);
+							--btn-transparency: var(--adj-btn-transparency, 50%);
 						}
 						&.plus-one {
 							grid-column: 2;
 							grid-row: 2;
-							margin-inline-start: var(--margin-size);
+							--btn-transparency: var(--adj-btn-transparency, 50%);
 						}
 						&.minus-five {
 							grid-column: 1;
 							grid-row: 3;
-							margin-inline-end: var(--margin-size);
 						}
 						&.plus-five {
 							grid-column: 2;
 							grid-row: 3;
-							margin-inline-start: var(--margin-size);
+						}
+
+						&:is(.minus-five, .plus-five) {
+							margin-block-start: 10px;
 						}
 					}
 				}
@@ -394,7 +402,7 @@ window.GW = window.GW || {};
 						if(!(ticks - 1)) {
 							this.#doModify();
 						}
-					}, 1000);
+					}, 600);
 				}
 			}
 			else {

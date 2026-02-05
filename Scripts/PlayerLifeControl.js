@@ -341,14 +341,24 @@ window.GW = window.GW || {};
 				></button>
 			`;
 
-			this.getRef("divPlusOne").addEventListener("click", () => {this.#stageModify(1)});
-			this.getRef("divMinusOne").addEventListener("click", () => {this.#stageModify(-1)});
 
-			this.getRef("btnPlusOne").addEventListener("click", () => {this.#stageModify(1)});
-			this.getRef("btnMinusOne").addEventListener("click", () => {this.#stageModify(-1)});
+			[this.getRef("divPlusOne"), this.getRef("btnPlusOne")].forEach(elem => {
+				elem.addEventListener("click", () => this.#stageModify(1));
+				elem.addEventListener("contextmenu", (event) => {
+					this.#stageModify(5);
+					event.preventDefault();
+				});
+			});
+			[this.getRef("divMinusOne"), this.getRef("btnMinusOne")].forEach(elem => {
+				elem.addEventListener("click", () => this.#stageModify(-1));
+				elem.addEventListener("contextmenu", (event) => {
+					this.#stageModify(-5);
+					event.preventDefault();
+				});
+			});
 
-			this.getRef("btnPlusFive").addEventListener("click", () => {this.#stageModify(5)});
-			this.getRef("btnMinusFive").addEventListener("click", () => {this.#stageModify(-5)});
+			this.getRef("btnPlusFive").addEventListener("click", () => this.#stageModify(5));
+			this.getRef("btnMinusFive").addEventListener("click", () => this.#stageModify(-5));
 
 			this.getRef("btnAccept").addEventListener("click", (event) => {this.#doModify(event)});
 

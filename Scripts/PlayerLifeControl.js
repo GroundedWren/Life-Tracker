@@ -157,15 +157,19 @@ window.GW = window.GW || {};
 
 						margin-inline: 5px;
 
+						&:is(.minus-one, .plus-one) {
+							--btn-transparency: var(--adj-btn-transparency, 50%);
+							grid-template-columns: 0.25fr 1fr 0.25fr;
+						}
+
 						&.minus-one {
 							grid-column: 1;
 							grid-row: 2;
-							--btn-transparency: var(--adj-btn-transparency, 50%);
+							
 						}
 						&.plus-one {
 							grid-column: 2;
 							grid-row: 2;
-							--btn-transparency: var(--adj-btn-transparency, 50%);
 						}
 						&.minus-five {
 							grid-column: 1;
@@ -319,12 +323,14 @@ window.GW = window.GW || {};
 				<div id=${this.getId("divPlusOne")} class="adjuster plus-one" aria-hidden="true"></div>
 				<div id=${this.getId("divMinusOne")} class="adjuster minus-one" aria-hidden="true"></div>
 				<button id="${this.getId("btnMinusOne")}" class="adjuster minus-one">
-					<gw-icon iconKey="minus" name="Subtract"></gw-icon>
-					1
+					<gw-icon iconKey="chevron-left" name="Subtract" aria-hidden="true"></gw-icon>
+					<span><gw-icon iconKey="minus" name="Subtract"></gw-icon>1</span>
+					<span></span>
 				</button>
 				<button id="${this.getId("btnPlusOne")}" class="adjuster plus-one">
-					<gw-icon iconKey="plus" name="Add"></gw-icon>
-					1
+					<span></span>
+					<span><gw-icon iconKey="plus" name="Add"></gw-icon>1</span>
+					<gw-icon iconKey="chevron-right" name="Subtract" aria-hidden="true"></gw-icon>
 				</button>
 				<button id="${this.getId("btnMinusFive")}" class="adjuster minus-five">
 					<gw-icon iconKey="minus" name="Subtract"></gw-icon>

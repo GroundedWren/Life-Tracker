@@ -95,6 +95,9 @@ window.GW = window.GW || {};
 			ns.Data.StartInstant = new Date(ns.Data.StartInstant);
 			beginClock();
 		}
+		else {
+			wakeLock();
+		}
 		renderFromData();
 
 		if(localStorage.getItem("auto-submit") === "false") {
@@ -104,13 +107,6 @@ window.GW = window.GW || {};
 		document.getElementById("cbxAutoSubmit").closest(`gw-switch`).addEventListener("change", updateAutoSubmit);
 
 		document.addEventListener("fullscreenchange", onFullscreenChanged);
-
-		try {
-			await navigator.wakeLock.request("screen");
-			console.log("Wake locked");
-		} catch (err) {
-			console.log("Cannot wake lock");
-		}
 	};
 
 	const updateAutoSubmit = () => {
@@ -142,6 +138,7 @@ window.GW = window.GW || {};
 				? "true"
 				: "false"
 		);
+		wakeLock();
 	};
 
 	function getTimeStr() {
@@ -197,6 +194,7 @@ window.GW = window.GW || {};
 			const elapsedTimeStr = getElapsedTimeStr();
 			document.getElementById("plTop").setTime(elapsedTimeStr);
 			document.getElementById("plBottom").setTime(elapsedTimeStr);
+			wakeLock();
 		}, 1000);
 	}
 
@@ -209,6 +207,15 @@ window.GW = window.GW || {};
 		const elapsedMins = Math.floor(elapsedSecs / 60);
 		const remainderSecs = elapsedSecs % 60;
 		return `${elapsedMins < 10 ? "0" + elapsedMins : elapsedMins}:${remainderSecs < 10 ? "0" + remainderSecs : remainderSecs}`;
+	}
+
+	async function wakeLock() {
+		try {
+			await navigator.wakeLock.request("screen");
+			console.log("Wake locked");
+		} catch (err) {
+			console.log("Cannot wake lock");
+		}
 	}
 
 	window.addEventListener("DOMContentLoaded", ns.onDCL);

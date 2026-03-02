@@ -13,6 +13,8 @@ window.GW = window.GW || {};
 			Bottom: parseInt(formData.get("bottom")),
 			TimeStr: getTimeStr()}
 		];
+		ns.Data.StartInstant = new Date();
+		beginClock();
 		ns.RedoStack = [];
 
 		document.getElementById("diaNew").close();
@@ -49,6 +51,10 @@ window.GW = window.GW || {};
 		valueObj.TimeStr = getTimeStr();
 
 		ns.Data.Steps.push(valueObj);
+		if(!ns.Data.StartInstant) {
+			ns.Data.StartInstant = new Date();
+			beginClock();
+		}
 		ns.RedoStack = [];
 		renderFromData();
 	}
@@ -85,6 +91,10 @@ window.GW = window.GW || {};
 
 	ns.onDCL = async () => {
 		ns.Data = JSON.parse(localStorage.getItem("data")) || {Steps: [{Top: 40, Bottom: 40, TimeStr: getTimeStr()}]};
+		if(ns.Data.StartInstant) {
+			ns.Data.StartInstant = new Date(ns.Data.StartInstant);
+			beginClock();
+		}
 		renderFromData();
 
 		if(localStorage.getItem("auto-submit") === "false") {
@@ -149,13 +159,17 @@ window.GW = window.GW || {};
 		newForm.querySelector(`[name="top"]`).value = startingTop;
 		newForm.querySelector(`[name="bottom"]`).value = startingBottom;
 
+		const elapsedTimeStr = getElapsedTimeStr();
+
 		const plTop = document.getElementById("plTop");
 		plTop.setMax(startingTop);
 		plTop.setLatest(latestTop);
+		plTop.setTime(elapsedTimeStr);
 
 		const plBottom = document.getElementById("plBottom");
 		plBottom.setMax(startingBottom);
 		plBottom.setLatest(latestBottom);
+		plBottom.setTime(elapsedTimeStr);
 
 		if(ns.Data.Steps.length > 1) {
 			document.getElementById("btnUndo").removeAttribute("disabled");
@@ -173,5 +187,29 @@ window.GW = window.GW || {};
 
 		localStorage.setItem("data", JSON.stringify(ns.Data));
 	}
+
+	ns.ClockInterval = null;
+	function beginClock() {
+		if(ns.ClockInterval !== null) {
+			clearInterval(ns.CLockInterval);
+		}
+		ns.ClockInterval = setInterval(() => {
+			const elapsedTimeStr = getElapsedTimeStr();
+			document.getElementById("plTop").setTime(elapsedTimeStr);
+			document.getElementById("plBottom").setTime(elapsedTimeStr);
+		}, 1000);
+	}
+
+	function getElapsedTimeStr() {
+		if(!ns.Data.StartInstant) {
+			return "";
+		}
+		const elapsedMs = new Date() - ns.Data.StartInstant;
+		const elapsedSecs = Math.floor(elapsedMs / 1000.0);
+		const elapsedMins = Math.floor(elapsedSecs / 60);
+		const remainderSecs = elapsedSecs % 60;
+		return `${elapsedMins < 10 ? "0" + elapsedMins : elapsedMins}:${remainderSecs < 10 ? "0" + remainderSecs : remainderSecs}`;
+	}
+
 	window.addEventListener("DOMContentLoaded", ns.onDCL);
 }) (window.GW.LifeTracker = window.GW.LifeTracker || {});

@@ -450,6 +450,10 @@ window.GW = window.GW || {};
 			this.#updateColor();
 		}
 
+		setTime(value) {
+			this.getRef("ring").setAttribute("time", value);
+		}
+
 		getStagedValue() {
 			return parseInt(this.getRef("ring").getAttribute("numerator")) + this.#StagedModify;
 		}

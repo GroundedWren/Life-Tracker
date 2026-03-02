@@ -12,7 +12,7 @@ window.GW = window.GW || {};
 		//Element name
 		static Name = "gw-progress-ring";
 
-		static observedAttributes = ["numerator", "denominator", "name", "progressbar", "percent"];
+		static observedAttributes = ["numerator", "denominator", "name", "progressbar", "percent", "time"];
 
 		static #VbxWidth = 100;
 		static #VbxHeight = 100;
@@ -87,6 +87,10 @@ window.GW = window.GW || {};
 					.flipped-text {
 						font-family: 'Segoe UI', Arial, Verdana, Tahoma, 'Trebuchet MS', sans-serif;
 						font-size: 0.8em;
+					}
+					.time-text {
+						font-family: 'Courier New', monospace;
+						font-size: 0.5em;
 					}
 				}
 				&:not([forceAnimate]) {
@@ -285,6 +289,12 @@ window.GW = window.GW || {};
 					text-anchor="middle"
 					aria-hidden="true"
 				></text>
+				<text class="time-text"
+					transform="translate(${ProgressRingEl.#VbxWidth / 2}, ${3 * ProgressRingEl.#VbxHeight / 4})"
+					dominant-baseline="middle"
+					text-anchor="middle"
+					aria-hidden="true"
+				></text>
 			</svg>`;
 
 			this.IsInitialized = true;
@@ -311,6 +321,9 @@ window.GW = window.GW || {};
 
 			const flippedTextEl = svgEl.querySelector(`.flipped-text`);
 			flippedTextEl.textContent = this.Numerator;
+
+			const timeTextEl = svgEl.querySelector(`.time-text`);
+			timeTextEl.textContent = this.getAttribute("time") || "";
 
 			this.#StyleSheet.replaceSync(`${ProgressRingEl.Name}[data-instance="${this.InstanceId}"] {
 				min-width: calc(${textEl.textContent.length}ch + 15px);

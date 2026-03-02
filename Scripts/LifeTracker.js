@@ -78,8 +78,8 @@ window.GW = window.GW || {};
 						onclick="GW.LifeTracker.setStep(${index})"
 					>${index + 1} - ${stepObj.TimeStr}<a>
 				</th>
-				<td>${stepObj.Top}${topDiff ? `<mark>${getDiffStr(topDiff)}</mark>` : "<br>&nbsp;"}</td>
-				<td>${stepObj.Bottom}${bottomDiff ? `<mark>${getDiffStr(bottomDiff)}</mark>` : "<br>&nbsp;"}</td>
+				<td class="top">${stepObj.Top}${topDiff ? `<mark>${getDiffStr(topDiff)}</mark>` : "<br>&nbsp;"}</td>
+				<td class="bottom">${stepObj.Bottom}${bottomDiff ? `<mark>${getDiffStr(bottomDiff)}</mark>` : "<br>&nbsp;"}</td>
 			</tr>
 		`}).join("");
 		document.getElementById("diaHistory").showModal();
@@ -142,7 +142,7 @@ window.GW = window.GW || {};
 	};
 
 	function getTimeStr() {
-		return new Date().toLocaleTimeString();
+		return new Date().toLocaleTimeString().replaceAll(/( AM)*( PM)*/g, "");
 	}
 
 	function renderFromData() {

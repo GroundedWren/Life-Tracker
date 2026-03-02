@@ -77,6 +77,9 @@
 			max-width: initial;
 			margin-inline: 0;
 			height: 100vh;
+
+			--top-color: powderblue;
+			--bottom-color: thistle;
 		}
 
 		body {
@@ -105,14 +108,14 @@
 
 				transform: rotate(180deg);
 
-				background-color: powderblue;
+				background-color: var(--top-color);
 			}
 
 			#secPlayerBottom {
 				grid-row: 3 / 5;
 				grid-column: 1;
 
-				background-color: thistle;
+				background-color: var(--bottom-color);
 			}
 		}
 
@@ -206,6 +209,8 @@
 		#diaHistory {
 			--dialog-padding: 16px;
 			padding: var(--dialog-padding);
+			position: relative;
+			
 			thead {
 				position: sticky;
 				top: calc(-1 * var(--dialog-padding) - 1px);
@@ -215,6 +220,8 @@
 				th, td {
 					padding-inline: 2px;
 					border-block-end-width: 2px;
+					border-block-start: 0px;
+					padding-block-start: 0px;
 				}
 			}
 
@@ -222,6 +229,15 @@
 				height: 44px !important;
 
 				text-align: center;
+			}
+
+			:is(th, td) {
+				&.top {
+					background-color: var(--top-color);
+				}
+				&.bottom {
+					background-color: var(--bottom-color);
+				}
 			}
 
 			footer {
@@ -361,8 +377,8 @@
 			<thead>
 				<tr>
 					<td></td>
-					<th scope="col">Top</th>
-					<th scope="col">Bottom</th>
+					<th scope="col" class="top">Top</th>
+					<th scope="col" class="bottom">Bottom</th>
 				</tr>
 			</thead>
 			<tbody id="tbodyHistory"></tbody>

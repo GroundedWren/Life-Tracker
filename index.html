@@ -204,9 +204,20 @@
 		}
 
 		#diaHistory {
-			th {
-				padding-inline: 2px;
+			--dialog-padding: 16px;
+			padding: var(--dialog-padding);
+			thead {
+				position: sticky;
+				top: calc(-1 * var(--dialog-padding) - 1px);
+				background-color: var(--background-color);
+				box-shadow: 0px 1px 0px 0px var(--border-color);
+
+				th, td {
+					padding-inline: 2px;
+					border-block-end-width: 2px;
+				}
 			}
+
 			tbody tr {
 				height: 44px !important;
 

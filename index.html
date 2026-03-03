@@ -211,6 +211,10 @@
 			padding: var(--dialog-padding);
 			position: relative;
 
+			&.reverse {
+				transform: rotate(180deg);
+			}
+
 			thead {
 				position: sticky;
 				top: calc(-1 * var(--dialog-padding) - 1px);
@@ -243,7 +247,9 @@
 
 			footer {
 				display: grid;
+				grid-template-columns: auto auto;
 				grid-template-rows: 44px;
+				column-gap: 4px;
 			}
 		}
 
@@ -385,6 +391,9 @@
 			<tbody id="tbodyHistory"></tbody>
 		</table>
 		<footer>
+			<button onclick="document.getElementById('diaHistory').classList.toggle('reverse')">
+				<gw-icon iconKey="rotate"></gw-icon>
+			</button>
 			<button autofocus onclick="document.getElementById('diaHistory').close();">Close</button>
 		</footer>
 	</dialog>

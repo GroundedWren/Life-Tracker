@@ -19,6 +19,7 @@ window.GW = window.GW || {};
 
 		document.getElementById("diaNew").close();
 		renderFromData();
+		ns.pans();
 	};
 
 	ns.onNewQB = (lifeMax) => {
@@ -36,6 +37,24 @@ window.GW = window.GW || {};
 	ns.redo = function redo() {
 		ns.Data.Steps.push(ns.RedoStack.pop());
 		renderFromData();
+	}
+
+	ns.snap = function snap() {
+		const audSnap = document.getElementById("audSnap");
+		audSnap.currentTime = 0;
+		audSnap.play();
+	};
+
+	ns.pans = function snap() {
+		const audSnap = document.getElementById("audPans");
+		audSnap.currentTime = 0;
+		audSnap.play();
+	};
+
+	ns.ting = function ting() {
+		const audTing = document.getElementById("audTing");
+		audTing.currentTime = 0;
+		audTing.play();
 	}
 
 	ns.addStep = function addStep(valueObj) {

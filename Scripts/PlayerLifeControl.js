@@ -374,6 +374,13 @@ window.GW = window.GW || {};
 		#stageModify(value) {
 			this.#StagedModify += value;
 
+			if(value > 0) {
+				GW.LifeTracker.pans();
+			}
+			else if(value < 0) {
+				GW.LifeTracker.snap();
+			}
+
 			this.#updateBtnAccept();
 		}
 
@@ -382,6 +389,7 @@ window.GW = window.GW || {};
 			this.#StagedModify = 0;
 			this.#updateBtnAccept();
 			this.getRef("ring").focus();
+			GW.LifeTracker.ting();
 
 			GW.LifeTracker.addStep({[this.getAttribute("key")]: newValue});
 
